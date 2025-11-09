@@ -9,6 +9,7 @@
         <module name="api-gateway" />
         <module name="microservicio-auxiliar" />
         <module name="microservicio-camiones" />
+        <module name="common-models" />
         <module name="microservicio-clientes" />
         <module name="microservicio-contenedores" />
       </profile>
@@ -17,6 +18,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-gateway" options="-parameters" />
+      <module name="common-models" options="-parameters" />
       <module name="microservicio-auxiliar" options="-parameters" />
       <module name="microservicio-camiones" options="-parameters" />
       <module name="microservicio-clientes" options="-parameters" />
