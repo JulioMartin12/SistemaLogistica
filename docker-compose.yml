@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # Base de Datos PostgreSQL
+  db:
+    image: postgres:16
+    container_name: transporte_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: transporte_db
+    ports:
+      - "5432:5432" # Mapeo de puerto para que puedas conectarte desde tu IDE/PgAdmin
+    networks:
+      - microservice-network
+
+  # Microservicio de Clientes (Agente de Creación de Tablas)
+  microservicio-clientes:
+    build:
+      context: ./microservicio-clientes
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      # Datos de Conexión
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/transporte_db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+
+      # CRUCIAL 1: Forzamos el DDL para que no dependa del YAML del microservicio
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+      # CRUCIAL 2: Forzamos el escaneo de entidades compartidas (common-models)
+      SPRING_JPA_PROPERTIES_HIBERNATE_PACKAGES_TO_SCAN: com.grupo108.models, com.grupo108.clientes
+
+      # CRUCIAL 3: Desactivamos el discovery si estuviera activo
+      SPRING_CLOUD_DISCOVERY_ENABLED: 'false'
+
+    depends_on:
+      - db
+    networks:
+      - microservice-network
+
+networks:
+  microservice-network:
+    driver: bridge

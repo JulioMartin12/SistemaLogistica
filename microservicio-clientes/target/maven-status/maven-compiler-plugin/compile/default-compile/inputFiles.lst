@@ -1,1 +1,9 @@
 D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-clientes\src\main\java\com\grupo108\clientes\MicroservicioClientesApplication.java
+D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-clientes\src\main\java\com\grupo108\clientes\repository\BarrioRepository.java
+D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-clientes\src\main\java\com\grupo108\clientes\repository\calleRepository.java
+D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-clientes\src\main\java\com\grupo108\clientes\repository\CiudadRepository.java
+D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-clientes\src\main\java\com\grupo108\clientes\repository\ClienteRepository.java
+D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-clientes\src\main\java\com\grupo108\clientes\repository\DireccionRepopository.java
+D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-clientes\src\main\java\com\grupo108\clientes\repository\GeolocalizacionRepository.java
+D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-clientes\src\main\java\com\grupo108\clientes\repository\PaisRepository.java
+D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-clientes\src\main\java\com\grupo108\clientes\repository\ProvinciaRepository.java
