@@ -51,3 +51,7 @@ tmp/
 *.war
 *.ear
 *.class
+
+# Data gigante y binarios
+/osrm-data/
+

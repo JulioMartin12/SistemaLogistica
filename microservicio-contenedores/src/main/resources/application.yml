@@ -1,0 +1,14 @@
+server:
+  port: 8080 # Puerto Único de Acceso a toda la arquitectura
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        # RUTA 1: MICROSERVICIO CLIENTES
+        - id: clientes-service
+          uri: http://localhost:8081 # Destino para pruebas locales
+          predicates:
+            - Path=/api/v1/clientes/**

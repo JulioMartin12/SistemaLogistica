@@ -1,5 +1,6 @@
 package com.grupo108.models;
 
+import com.grupo108.models.enums.EstadoContenedor;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +16,6 @@ public class Contenedor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String identificacion;
     private Double peso;
     private Double volumen;
 
@@ -23,11 +23,8 @@ public class Contenedor {
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "estado_contenedor_id", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private EstadoContenedor estadoContenedor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "solicitud_id")
-    private Solicitud solicitud;
 }

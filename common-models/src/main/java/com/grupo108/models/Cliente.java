@@ -15,12 +15,23 @@ public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idCliente;
+    private int idCliente; //
+
+    // Datos personales y de contacto
     private String nombre;
     private String apellido;
     private String email;
     private String telefono;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Direccion> direcciones;
+
+   // @OneToOne(cascade = CascadeType.ALL)
+    //@JoinColumn(name = "ubicacion_id", referencedColumnName = "idGeolocalizacion")
+    //private Geolocalizacion ubicacion;
+
+
+    //@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //private List<Contenedor> contenedores;
+
+    //@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //private List<Solicitud> solicitudes;
 }

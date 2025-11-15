@@ -16,8 +16,6 @@ public class Geolocalizacion {
 
     private Double latitud;
     private Double longitud;
+    private String direccion;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_direccion", nullable = false)
-    private Direccion direccion;
 }

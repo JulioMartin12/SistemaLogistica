@@ -1,0 +1,34 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    gateway:
+      routes:
+        # RUTA 1: CLIENTES (Puerto 8081)
+        - id: clientes-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/clientes/**
+
+        # RUTA 2: CONTENEDORES (Puerto 8082)
+        - id: contenedores-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/contenedores/**
+
+        # RUTA 3: CAMIONES (Puerto 8083)
+        - id: camiones-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/v1/camiones/**
+
+        # RUTA 4: EXTERNO (Puerto 8084)
+        - id: externo-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/v1/externo/**

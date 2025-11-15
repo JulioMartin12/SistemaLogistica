@@ -16,11 +16,10 @@ public class Deposito {
     private int id;
 
     private String nombre;
-    private Double latitud; // numeric(10, 8)
-    private Double longitud; // numeric(11, 8)
     private Double costoEstadiaDiario;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_direccion", unique = true, nullable = false)
-    private Direccion direccion;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "geolocalizacion_id", referencedColumnName = "idGeolocalizacion", nullable = false)
+    private Geolocalizacion ubicacion;
+
 }

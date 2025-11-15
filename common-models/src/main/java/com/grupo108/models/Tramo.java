@@ -1,11 +1,13 @@
 package com.grupo108.models;
 
+import com.grupo108.models.enums.EstadoTramo;
+import com.grupo108.models.enums.TipoTramo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.Date;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -16,27 +18,39 @@ public class Tramo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String origen;
-    private String destino;
-    private Double costoAproximado;
-    private Double costoReal;
-    private Date fechaHoraInicio;
-    private Date fechaHoraFin;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "camion_id", nullable = false)
-    private Camion camion; // ¡Añadir este campo al código!
+    @JoinColumn(name = "origen_id", nullable = false)
+    private Geolocalizacion origen;
 
-    // ManyToOne: FK ruta_id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "destino_id", nullable = false)
+    private Geolocalizacion destino;
+
+
+    private Double costoAproximado;
+    private Double costoReal;
+    private Date fechaHoraInicioEstimada;
+    private Date fechaHoraFinEstimada;
+    private Date fechaHoraInicioReal;
+    private Date fechaHoraFinReal;
+    private Double distanciaKm;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoTramo tipoTramo;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EstadoTramo estadoTramo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "camion_dominio", nullable = false)
+    private Camion camion;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ruta_id", nullable = false)
     private Ruta ruta;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tipo_tramo_id", nullable = false)
-    private TipoTramo tipoTramo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "estado_tramo_id", nullable = false)
-    private EstadoTramo estadoTramo;
 }

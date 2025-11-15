@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,15 +18,14 @@ public class Ruta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private Integer cantidadTramos; // int4
-    private Integer cantidadDepositos; // int4
+    private Date fechaAsignacion;
+    private int cantidadTramos;
+    private int cantidadDepositos;
 
-    // OneToOne: FK solicitud_id está en la tabla ruta (Mapeo por la clave foránea)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "solicitud_id", nullable = false)
     private Solicitud solicitud;
 
-    // Relación OneToMany: Una ruta tiene muchos tramos
     @OneToMany(mappedBy = "ruta", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Tramo> tramos;
 }

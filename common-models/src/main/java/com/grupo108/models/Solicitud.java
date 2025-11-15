@@ -1,5 +1,6 @@
 package com.grupo108.models;
 
+import com.grupo108.models.enums.EstadoSolicitud;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,18 +17,25 @@ public class Solicitud {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+    private int numeroSolicitud;
 
     private Double costoEstimado;
-    private Date tiempoEstimado;
     private Double costoReal;
+    private Date tiempoEstimado;
     private Date tiempoReal;
-    private String estado;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EstadoSolicitud estado;
+
+    @OneToOne
+    @JoinColumn(name = "contenedor_id", unique = true, nullable = false)
+    private Contenedor contenedor;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Cliente cliente;
 
     @OneToOne(mappedBy = "solicitud", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Ruta ruta;
-
-    @OneToMany(mappedBy = "solicitud", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Contenedor> contenedores;
 }

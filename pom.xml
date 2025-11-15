@@ -62,14 +62,19 @@
 			</dependency>
 
 		</dependencies>  </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+    </dependencies>
 
-	<modules>
+    <modules>
 		<module>common-models</module>
 		<module>api-gateway</module>
 		<module>microservicio-clientes</module>
 		<module>microservicio-contenedores</module>
 		<module>microservicio-camiones</module>
-		<module>microservicio-externo</module>
 	</modules>
 
 </project>

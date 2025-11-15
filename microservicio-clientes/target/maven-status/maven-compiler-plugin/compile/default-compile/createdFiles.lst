@@ -1,9 +1,5 @@
-com\grupo108\clientes\repository\BarrioRepository.class
 com\grupo108\clientes\repository\GeolocalizacionRepository.class
 com\grupo108\clientes\MicroservicioClientesApplication.class
-com\grupo108\clientes\repository\PaisRepository.class
-com\grupo108\clientes\repository\DireccionRepopository.class
-com\grupo108\clientes\repository\calleRepository.class
-com\grupo108\clientes\repository\CiudadRepository.class
 com\grupo108\clientes\repository\ClienteRepository.class
-com\grupo108\clientes\repository\ProvinciaRepository.class
+com\grupo108\clientes\controller\ClienteController.class
+com\grupo108\clientes\service\ClienteService.class

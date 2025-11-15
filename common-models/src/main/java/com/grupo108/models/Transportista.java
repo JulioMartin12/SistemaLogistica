@@ -15,13 +15,20 @@ import java.util.List;
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id; // id_transportista
+        private int id;
 
-        private String nombre; // varchar(150)
-        private String apellido; // varchar(150)
-        private String telefono; // varchar(50)
+        private String nombre;
+        private String apellido;
+        private String telefono;
+        private boolean disponibilidad;
 
-        // Relación OneToMany: Un transportista puede conducir muchos camiones (a lo largo del tiempo)
         @OneToMany(mappedBy = "transportista", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
         private List<Camion> camiones;
+
+    public Transportista(String nombre, String apellido, String telefono, boolean disponibilidad) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.telefono = telefono;
+        this.disponibilidad = disponibilidad;
     }
+}

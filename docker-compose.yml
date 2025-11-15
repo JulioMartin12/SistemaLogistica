@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # Base de Datos PostgreSQL
+  # 1. POSTGRESQL DB (No necesita cambios)
   db:
     image: postgres:16
     container_name: transporte_db
@@ -10,37 +10,108 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: transporte_db
     ports:
-      - "5432:5432" # Mapeo de puerto para que puedas conectarte desde tu IDE/PgAdmin
+      - "5432:5432"
     networks:
       - microservice-network
 
-  # Microservicio de Clientes (Agente de Creación de Tablas)
+  # 2. API GATEWAY (Punto de Entrada)
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080" # El puerto de escucha público
+    environment:
+      SPRING_APPLICATION_NAME: api-gateway
+    depends_on:
+      # 💡 DEPENDENCIAS CRUCIALES: Keycloak y Microservicios
+      - keycloak
+      - microservicio-clientes
+      - microservicio-contenedores
+      - microservicio-camiones
+      - osrm # <-- DEPENDENCIA A LA API EXTERNA
+    networks:
+      - microservice-network
+
+  # 3. MICROSERVICIO CLIENTES (Agente DDL)
   microservicio-clientes:
     build:
       context: ./microservicio-clientes
       dockerfile: Dockerfile
-    ports:
-      - "8081:8081"
     environment:
-      # Datos de Conexión
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/transporte_db
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: password
-
-      # CRUCIAL 1: Forzamos el DDL para que no dependa del YAML del microservicio
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-
-      # CRUCIAL 2: Forzamos el escaneo de entidades compartidas (common-models)
-      SPRING_JPA_PROPERTIES_HIBERNATE_PACKAGES_TO_SCAN: com.grupo108.models, com.grupo108.clientes
-
-      # CRUCIAL 3: Desactivamos el discovery si estuviera activo
-      SPRING_CLOUD_DISCOVERY_ENABLED: 'false'
-
     depends_on:
       - db
     networks:
       - microservice-network
 
+  # 4. MICROSERVICIO CONTENEDORES
+  microservicio-contenedores:
+    build:
+      context: ./microservicio-contenedores
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/transporte_db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+    depends_on:
+      - db
+    networks:
+      - microservice-network
+
+  # 5. MICROSERVICIO CAMIONES (Cálculo de Tarifa / Simulación de Distancia)
+  microservicio-camiones:
+    build:
+      context: ./microservicio-camiones
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/transporte_db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+    depends_on:
+      - db
+      - osrm # <-- DEPENDENCIA AL SERVICIO DE DISTANCIA
+    networks:
+      - microservice-network
+
+  # 6. SERVIDOR OSRM (API de Distancias Local)
+  osrm:
+    image: ghcr.io/project-osrm/osrm-backend:latest
+    container_name: osrm
+    ports:
+      - "5000:5000" # Puerto expuesto
+    volumes:
+      # Aunque esté vacío, el volumen es necesario para el arranque
+      - ./osrm-data:/data
+    # Comando de arranque (usará el archivo de mapa)
+    command: osrm-routed /data/argentina-latest.osrm
+    networks:
+      - microservice-network
+
+  # 7. SERVIDOR KEYCLOAK (IAM)
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: supersecretpassword
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://db:5432/transporte_db
+      KC_DB_USERNAME: user
+      KC_DB_PASSWORD: password
+      KC_HTTP_PORT: 8080
+    command: start-dev
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    networks:
+      - microservice-network
+
+# Definición de red
 networks:
   microservice-network:
     driver: bridge
