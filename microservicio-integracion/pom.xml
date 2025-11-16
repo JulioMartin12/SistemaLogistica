@@ -11,7 +11,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>microservicio-contenedores</artifactId>
+    <artifactId>microservicio-integracion</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -22,35 +22,22 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
             <version>3.5.7</version>
         </dependency>
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.grupo108</groupId>
-            <artifactId>common-models</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.grupo108.contenedores.MicroservicioContenedoresApplication</mainClass>
+                    <mainClass>com.grupo108.integracion.MicroservicioIntegracionApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

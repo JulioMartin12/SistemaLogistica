@@ -4,31 +4,66 @@ server:
 spring:
   application:
     name: api-gateway
+
   cloud:
     compatibility-verifier:
       enabled: false
+
     gateway:
       routes:
-        # RUTA 1: CLIENTES (Puerto 8081)
+
+        # ======================== CLIENTES ========================
         - id: clientes-service
-          uri: http://localhost:8081
+          uri: http://microservicio-clientes:8080
           predicates:
             - Path=/api/v1/clientes/**
 
-        # RUTA 2: CONTENEDORES (Puerto 8082)
+
+        # ====================== CONTENEDORES ======================
         - id: contenedores-service
-          uri: http://localhost:8082
+          uri: http://microservicio-contenedores:8080
           predicates:
             - Path=/api/v1/contenedores/**
 
-        # RUTA 3: CAMIONES (Puerto 8083)
+
+        # ======================== CAMIONES =========================
         - id: camiones-service
-          uri: http://localhost:8083
+          uri: http://microservicio-camiones:8080
           predicates:
             - Path=/api/v1/camiones/**
 
-        # RUTA 4: EXTERNO (Puerto 8084)
+
+        # ========================= EXTERNO =========================
         - id: externo-service
-          uri: http://localhost:8084
+          uri: http://microservicio-externo:8080
           predicates:
             - Path=/api/v1/externo/**
+
+        - id: clientes-openapi
+          uri: http://microservicio-clientes:8081
+          predicates:
+           - Path=/v3/api-docs/clientes
+          filters:
+           - RewritePath=/v3/api-docs/clientes, /v3/api-docs
+
+      # 💡 RUTA DE DOCUMENTACIÓN: Proxy para obtener el JSON de Swagger de Contenedores
+        - id: contenedores-openapi
+          uri: http://microservicio-contenedores:8082
+          predicates:
+            - Path=/v3/api-docs/contenedores
+          filters:
+            - RewritePath=/v3/api-docs/contenedores, /v3/api-docs
+
+# Configuración del SpringDoc OpenAPI Manager (IMPORTANTE)
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html   # URL del Swagger UI
+    urls:
+      - name: Clientes
+        url: /v3/api-docs/clientes
+      - name: Contenedores
+        url: /v3/api-docs/contenedores
+      - name: Camiones
+        url: /v3/api-docs/camiones
+      - name: Externo
+        url: /v3/api-docs/externo

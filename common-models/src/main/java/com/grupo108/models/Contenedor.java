@@ -20,7 +20,7 @@ public class Contenedor {
     private Double volumen;
 
     @ManyToOne
-    @JoinColumn(name = "id_cliente", nullable = false)
+    @JoinColumn(name = "id_cliente", nullable = true)
     private Cliente cliente;
 
     @Enumerated(EnumType.STRING)

@@ -11,6 +11,7 @@
         <module name="common-models" />
         <module name="microservicio-clientes" />
         <module name="microservicio-contenedores" />
+        <module name="microservicio-integracion" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -19,12 +20,13 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="api-gateway" options="-parameters" />
-      <module name="common-models" options="-parameters" />
-      <module name="microservicio-camiones" options="-parameters" />
-      <module name="microservicio-clientes" options="-parameters" />
-      <module name="microservicio-contenedores" options="-parameters" />
+      <module name="api-gateway" options="" />
+      <module name="common-models" options="" />
+      <module name="microservicio-camiones" options="" />
+      <module name="microservicio-clientes" options="" />
+      <module name="microservicio-contenedores" options="" />
       <module name="microservicio-externo" options="-parameters" />
+      <module name="microservicio-integracion" options="" />
     </option>
   </component>
 </project>

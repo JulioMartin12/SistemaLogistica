@@ -1,107 +1,27 @@
-version: '3.8'
+version: '3.9'
 
 services:
-  # 1. POSTGRESQL DB (No necesita cambios)
+  # ---------- DB ----------
   db:
     image: postgres:16
     container_name: transporte_db
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: transporte_db
+    env_file: .env
     ports:
       - "5432:5432"
     networks:
       - microservice-network
 
-  # 2. API GATEWAY (Punto de Entrada)
-  api-gateway:
-    build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080" # El puerto de escucha público
-    environment:
-      SPRING_APPLICATION_NAME: api-gateway
-    depends_on:
-      # 💡 DEPENDENCIAS CRUCIALES: Keycloak y Microservicios
-      - keycloak
-      - microservicio-clientes
-      - microservicio-contenedores
-      - microservicio-camiones
-      - osrm # <-- DEPENDENCIA A LA API EXTERNA
-    networks:
-      - microservice-network
-
-  # 3. MICROSERVICIO CLIENTES (Agente DDL)
-  microservicio-clientes:
-    build:
-      context: ./microservicio-clientes
-      dockerfile: Dockerfile
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/transporte_db
-      SPRING_DATASOURCE_USERNAME: user
-      SPRING_DATASOURCE_PASSWORD: password
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-    depends_on:
-      - db
-    networks:
-      - microservice-network
-
-  # 4. MICROSERVICIO CONTENEDORES
-  microservicio-contenedores:
-    build:
-      context: ./microservicio-contenedores
-      dockerfile: Dockerfile
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/transporte_db
-      SPRING_DATASOURCE_USERNAME: user
-      SPRING_DATASOURCE_PASSWORD: password
-    depends_on:
-      - db
-    networks:
-      - microservice-network
-
-  # 5. MICROSERVICIO CAMIONES (Cálculo de Tarifa / Simulación de Distancia)
-  microservicio-camiones:
-    build:
-      context: ./microservicio-camiones
-      dockerfile: Dockerfile
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/transporte_db
-      SPRING_DATASOURCE_USERNAME: user
-      SPRING_DATASOURCE_PASSWORD: password
-    depends_on:
-      - db
-      - osrm # <-- DEPENDENCIA AL SERVICIO DE DISTANCIA
-    networks:
-      - microservice-network
-
-  # 6. SERVIDOR OSRM (API de Distancias Local)
-  osrm:
-    image: ghcr.io/project-osrm/osrm-backend:latest
-    container_name: osrm
-    ports:
-      - "5000:5000" # Puerto expuesto
-    volumes:
-      # Aunque esté vacío, el volumen es necesario para el arranque
-      - ./osrm-data:/data
-    # Comando de arranque (usará el archivo de mapa)
-    command: osrm-routed /data/argentina-latest.osrm
-    networks:
-      - microservice-network
-
-  # 7. SERVIDOR KEYCLOAK (IAM)
+  # ---------- Keycloak ----------
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
     environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: supersecretpassword
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://db:5432/transporte_db
-      KC_DB_USERNAME: user
-      KC_DB_PASSWORD: password
+      KC_DB_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      KC_DB_USERNAME: ${POSTGRES_USER}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
       KC_HTTP_PORT: 8080
     command: start-dev
     ports:
@@ -111,7 +31,82 @@ services:
     networks:
       - microservice-network
 
-# Definición de red
+  # ---------- OSRM ----------
+  osrm:
+    image: ghcr.io/project-osrm/osrm-backend:latest
+    container_name: osrm
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./osrm-data:/data
+    command: osrm-routed /data/argentina-251114.osrm
+    networks:
+      - microservice-network
+
+  # ---------- API GATEWAY ----------
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./api-gateway/src/main/resources/application.yml:/app/config/application.yml
+    environment:
+      SPRING_APPLICATION_NAME: api-gateway
+    depends_on:
+      - keycloak
+      - microservicio-clientes
+      - microservicio-contenedores
+      - microservicio-camiones
+      - osrm
+    networks:
+      - microservice-network
+
+  # ---------- Microservicios ----------
+  microservicio-clientes:
+    build:
+      context: ./microservicio-clientes
+      dockerfile: Dockerfile
+    env_file: .env
+    expose:
+      - "8080"
+    volumes:
+      - ./microservicio-clientes/src/main/resources/application.yml:/app/config/application.yml
+    depends_on:
+      - db
+    networks:
+      - microservice-network
+
+  microservicio-contenedores:
+    build:
+      context: ./microservicio-contenedores
+      dockerfile: Dockerfile
+    env_file: .env
+    expose:
+      - "8080"
+    volumes:
+      - ./microservicio-contenedores/src/main/resources/application.yml:/app/config/application.yml
+    depends_on:
+      - db
+    networks:
+      - microservice-network
+
+  microservicio-camiones:
+    build:
+      context: ./microservicio-camiones
+      dockerfile: Dockerfile
+    env_file: .env
+    expose:
+      - "8080"
+    volumes:
+      - ./microservicio-camiones/src/main/resources/application.yml:/app/config/application.yml
+    depends_on:
+      - db
+      - osrm
+    networks:
+      - microservice-network
+
 networks:
   microservice-network:
     driver: bridge

@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: microservicio-contenedores
+    name: microservicio-clientes
 
   # CONFIGURACIÓN DE POSTGRESQL
   datasource:

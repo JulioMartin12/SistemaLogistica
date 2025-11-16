@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: microservicio-contenedores
+    name: microservicio-camiones
 
   # CONFIGURACIÓN DE POSTGRESQL
   datasource:
@@ -17,3 +17,8 @@ spring:
     hibernate:
       ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
     show-sql: true
+
+# 🗺️ CONFIGURACIÓN DE LA API DE RUTE OSRM (Para el DistanceService)
+osrm:
+  # URL interna del servicio OSRM (usada por DistanceService.java)
+  base-url: http://osrm:5000/route/v1/driving/
