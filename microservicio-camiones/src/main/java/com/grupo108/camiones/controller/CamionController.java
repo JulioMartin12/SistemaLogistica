@@ -29,11 +29,11 @@ public class CamionController {
     @PostMapping
     @Operation(summary = "Registrar un nuevo camión", description = "Guarda un camión validando patente única y capacidades positivas")
     public ResponseEntity<Camion> crearCamion(@Valid @RequestBody Camion camion) {
-        log.info("🚚 Iniciando registro de camión con patente: {}", camion.getPatente());
+        log.info("Iniciando registro de camión con patente: {}", camion.getPatente());
 
         Camion nuevoCamion = camionService.guardarCamion(camion);
 
-        log.info("✅ Camión registrado con éxito. ID: {}", nuevoCamion.getIdCamion());
+        log.info("Camión registrado con éxito. ID: {}", nuevoCamion.getIdCamion());
         return new ResponseEntity<>(nuevoCamion, HttpStatus.CREATED);
     }
 

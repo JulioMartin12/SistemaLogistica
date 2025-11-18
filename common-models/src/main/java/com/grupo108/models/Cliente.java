@@ -43,9 +43,9 @@ public class Cliente {
     @Column(nullable = false, length = 25)
     private String telefono;
 
-    @Size(max = 255, message = "La dirección no puede superar los 255 caracteres")
-    @Column(name = "direccion_principal", length = 255)
-    private String direccionPrincipal;
+    @Size(max = 255, message = "El domicilio no puede superar los 255 caracteres")
+    @Column(name = "domicilio", length = 255)
+    private String domicilio;
 
 
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)

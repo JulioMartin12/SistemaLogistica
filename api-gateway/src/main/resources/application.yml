@@ -37,7 +37,7 @@ spring:
           uri: http://microservicio-logistica:8080
           predicates:
               - Path=/api/v1/solicitudes/**
-              -
+
         # ====================== RUTAS DE DOCUMENTACIÓN (Swagger Proxy) ======================
 
         # 1. Clientes

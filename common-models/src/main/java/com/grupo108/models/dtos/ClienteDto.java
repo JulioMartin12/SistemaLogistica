@@ -25,4 +25,7 @@ public class ClienteDto {
 
     @NotBlank(message = "El teléfono es obligatorio")
     private String telefono;
+
+    @NotBlank(message = "la dirección es obligatoria")
+    private String domicilio;
 }

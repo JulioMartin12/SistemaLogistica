@@ -117,7 +117,6 @@ services:
       - microservice-network
 
   microservicio-logistica:
-    container_name: logistica_service
     build:
       context: ./microservicio-logistica
       dockerfile: Dockerfile

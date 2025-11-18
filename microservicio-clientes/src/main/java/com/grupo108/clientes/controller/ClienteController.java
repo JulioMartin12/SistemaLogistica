@@ -42,6 +42,7 @@ public class ClienteController {
         nuevo.setApellido(clienteDto.getApellido());
         nuevo.setEmail(clienteDto.getEmail());
         nuevo.setTelefono(clienteDto.getTelefono());
+        nuevo.setDomicilio(clienteDto.getDomicilio());
 
         Cliente guardado = clienteService.guardarCliente(nuevo);
         log.info("Nuevo cliente registrado: {}", guardado.getIdCliente());

@@ -55,7 +55,7 @@ public class SolicitudController {
     @PostMapping("/{id}/asignar")
     @Operation(summary = "Asignar ruta y camión", description = "Busca un camión apto y lo asigna a una Solicitud en estado BORRADOR, cambiando el estado a PROGRAMADA.")
     public ResponseEntity<Solicitud> asignarRuta(@PathVariable Integer id) {
-        log.info("🚛 Solicitud de asignación de ruta para ID: {}", id);
+        log.info("Solicitud de asignación de ruta para ID: {}", id);
 
         Solicitud solicitudProgramada = solicitudService.asignarRuta(id);
 
