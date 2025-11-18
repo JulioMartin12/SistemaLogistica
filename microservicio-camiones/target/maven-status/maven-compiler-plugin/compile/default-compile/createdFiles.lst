@@ -1,7 +1,12 @@
 com\grupo108\camiones\config\DataLoader.class
+com\grupo108\camiones\MicroservicioCamionesApplication.class
+com\grupo108\camiones\exception\GlobalExceptionHandler.class
+com\grupo108\camiones\exception\ResourceNotFoundException.class
 com\grupo108\camiones\repository\TransportistaRepository.class
 com\grupo108\camiones\controller\CamionController.class
+com\grupo108\camiones\controller\TarifaController.class
 com\grupo108\camiones\repository\CamionRepository.class
 com\grupo108\camiones\repository\TarifaRepository.class
-com\grupo108\camiones\MicroservicioCamionesApplication.class
 com\grupo108\camiones\service\CamionService.class
+com\grupo108\camiones\client\IntegracionClient.class
+com\grupo108\camiones\service\TarifaService.class

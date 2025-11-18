@@ -55,3 +55,4 @@ tmp/
 # Data gigante y binarios
 /osrm-data/
 
+.env

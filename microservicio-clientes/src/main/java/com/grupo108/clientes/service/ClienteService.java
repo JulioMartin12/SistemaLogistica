@@ -12,15 +12,13 @@ import java.util.Optional;
 public class ClienteService {
     private final ClienteRepository clienteRepository;
 
-    // Inyección de dependencia del repositorio
     @Autowired
     public ClienteService(ClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
     }
 
     public Cliente guardarCliente(Cliente cliente) {
-        // En un entorno real, aquí irían validaciones de email, etc.
-        return clienteRepository.save(cliente);
+           return clienteRepository.save(cliente);
     }
 
     public List<Cliente> buscarTodos() {
@@ -33,5 +31,9 @@ public class ClienteService {
 
     public void eliminarPorId(Long id) {
         clienteRepository.deleteById(id);
+    }
+
+    public Optional<Cliente> buscarPorEmail(String email) {
+        return clienteRepository.findByEmail(email);
     }
 }

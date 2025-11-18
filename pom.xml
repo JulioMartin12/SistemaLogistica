@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.grupo108</groupId>
@@ -17,21 +17,23 @@
 		<module>microservicio-contenedores</module>
 		<module>microservicio-camiones</module>
 		<module>microservicio-integracion</module>
+		<module>microservicio-logistica</module>
 	</modules>
 
 	<properties>
 		<java.version>17</java.version>
-		<spring.boot.version>3.5.7</spring.boot.version>
-		<spring.cloud.version>2022.0.5</spring.cloud.version>
-		<springdoc.version>2.2.0</springdoc.version>
-		<lombok.version>1.18.30</lombok.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<spring.boot.version>3.3.4</spring.boot.version>
+		<spring.cloud.version>2024.0.0</spring.cloud.version>
+		<springdoc.version>2.6.0</springdoc.version>
 		<postgres.version>42.7.3</postgres.version>
-		<jakarta.persistence.version>3.1.0</jakarta.persistence.version>
+		<lombok.version>1.18.30</lombok.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- Spring Boot BOM -->
+
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
@@ -40,7 +42,6 @@
 				<scope>import</scope>
 			</dependency>
 
-			<!-- Spring Cloud BOM -->
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
@@ -49,50 +50,37 @@
 				<scope>import</scope>
 			</dependency>
 
-			<!-- Dependencias comunes -->
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-web</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-webflux</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-data-jpa</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.projectlombok</groupId>
-				<artifactId>lombok</artifactId>
-				<version>${lombok.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+				<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
 				<version>${springdoc.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.postgresql</groupId>
-				<artifactId>postgresql</artifactId>
-				<version>${postgres.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>jakarta.persistence</groupId>
-				<artifactId>jakarta.persistence-api</artifactId>
-				<version>${jakarta.persistence.version}</version>
-			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
 	<build>
 		<pluginManagement>
 			<plugins>
+
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>${spring.boot.version}</version>
 				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.11.0</version>
+					<configuration>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+					</configuration>
+				</plugin>
+
 			</plugins>
 		</pluginManagement>
 	</build>
+
 </project>

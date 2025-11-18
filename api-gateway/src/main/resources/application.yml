@@ -12,52 +12,69 @@ spring:
     gateway:
       routes:
 
-        # ======================== CLIENTES ========================
+        # ======================== RUTAS DE NEGOCIO ========================
         - id: clientes-service
           uri: http://microservicio-clientes:8080
           predicates:
             - Path=/api/v1/clientes/**
 
-
-        # ====================== CONTENEDORES ======================
         - id: contenedores-service
           uri: http://microservicio-contenedores:8080
           predicates:
             - Path=/api/v1/contenedores/**
 
-
-        # ======================== CAMIONES =========================
         - id: camiones-service
           uri: http://microservicio-camiones:8080
           predicates:
-            - Path=/api/v1/camiones/**
+            - Path=/api/v1/camiones/**,/api/v1/tarifas/**
 
-
-        # ========================= EXTERNO =========================
-        - id: externo-service
-          uri: http://microservicio-externo:8080
+        - id: integracion-service
+          uri: http://microservicio-integracion:8080
           predicates:
-            - Path=/api/v1/externo/**
+            - Path=/api/v1/distancia/**
 
+        - id: logistica-service
+          uri: http://microservicio-logistica:8080
+          predicates:
+              - Path=/api/v1/solicitudes/**
+              -
+        # ====================== RUTAS DE DOCUMENTACIÓN (Swagger Proxy) ======================
+
+        # 1. Clientes
         - id: clientes-openapi
-          uri: http://microservicio-clientes:8081
+          uri: http://microservicio-clientes:8080
           predicates:
-           - Path=/v3/api-docs/clientes
+            - Path=/v3/api-docs/clientes
           filters:
-           - RewritePath=/v3/api-docs/clientes, /v3/api-docs
+            - RewritePath=/v3/api-docs/clientes, /v3/api-docs
 
-      # 💡 RUTA DE DOCUMENTACIÓN: Proxy para obtener el JSON de Swagger de Contenedores
+        # 2. Contenedores
         - id: contenedores-openapi
-          uri: http://microservicio-contenedores:8082
+          uri: http://microservicio-contenedores:8080
           predicates:
             - Path=/v3/api-docs/contenedores
           filters:
             - RewritePath=/v3/api-docs/contenedores, /v3/api-docs
 
-# Configuración del SpringDoc OpenAPI Manager (IMPORTANTE)
+        # 3. Camiones
+        - id: camiones-openapi
+          uri: http://microservicio-camiones:8080
+          predicates:
+            - Path=/v3/api-docs/camiones
+          filters:
+            - RewritePath=/v3/api-docs/camiones, /v3/api-docs
+
+        # 4. Integración
+        - id: integracion-openapi
+          uri: http://microservicio-integracion:8080
+          predicates:
+            - Path=/v3/api-docs/integracion
+          filters:
+            - RewritePath=/v3/api-docs/integracion, /v3/api-docs
+
 springdoc:
   swagger-ui:
-    path: /swagger-ui.html   # URL del Swagger UI
+    path: /swagger-ui.html
     urls:
       - name: Clientes
         url: /v3/api-docs/clientes
@@ -65,5 +82,5 @@ springdoc:
         url: /v3/api-docs/contenedores
       - name: Camiones
         url: /v3/api-docs/camiones
-      - name: Externo
-        url: /v3/api-docs/externo
+      - name: Integracion
+        url: /v3/api-docs/integracion

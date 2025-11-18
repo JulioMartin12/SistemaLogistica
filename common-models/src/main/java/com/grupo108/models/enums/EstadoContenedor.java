@@ -1,9 +1,9 @@
 package com.grupo108.models.enums;
 
 public enum EstadoContenedor {
-    BORRADOR,
-    PROGRAMADA,
-    EN_TRANSITO,
-    ENTREGADA
+    PENDIENTE_RETIRO,
+    EN_VIAJE,
+    EN_DEPOSITO,
+    ENTREGADO,
+    CANCELADO
 }
-

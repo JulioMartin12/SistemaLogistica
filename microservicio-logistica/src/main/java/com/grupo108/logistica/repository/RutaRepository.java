@@ -1,0 +1,9 @@
+package com.grupo108.logistica.repository;
+
+import com.grupo108.models.Ruta;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface RutaRepository extends JpaRepository<Ruta, Integer> {
+}

@@ -1,77 +1,71 @@
 package com.grupo108.camiones.config;
 
-import com.grupo108.models.*; // Importa todas las entidades
+import com.grupo108.models.Camion;
+import com.grupo108.models.Tarifa;
+import com.grupo108.models.Transportista;
+import com.grupo108.models.enums.TipoCamion;
+
+// Asegúrate de que estos repositorios existan en tu paquete repository
 import com.grupo108.camiones.repository.CamionRepository;
 import com.grupo108.camiones.repository.TarifaRepository;
 import com.grupo108.camiones.repository.TransportistaRepository;
 
-import com.grupo108.models.enums.TipoCamion;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
-@Configuration // 💡 Anotación que indica a Spring que esta clase contiene Beans
+@Configuration
 public class DataLoader {
 
-    // 💡 Paso 2: Crear el Bean CommandLineRunner para su ejecución
     @Bean
     public CommandLineRunner loadData(
             TarifaRepository tarifaRepository,
             CamionRepository camionRepository,
             TransportistaRepository transportistaRepository
     ) {
-        // La lógica de inserción se ejecuta una vez que la aplicación arranca
         return args -> {
-
-            // 1. Lógica de Precarga va aquí
-
-            // 2. Ejecutar lógica de inserción
-            if (tarifaRepository.count() == 0) {
+              if (tarifaRepository.count() == 0) {
                 cargarDatos(tarifaRepository, camionRepository, transportistaRepository);
             }
         };
     }
 
-    // 💡 Paso 3: El método que contiene la lógica de inserción
     private void cargarDatos(
             TarifaRepository tarifaRepository,
             CamionRepository camionRepository,
             TransportistaRepository transportistaRepository) {
 
-        // 1. Precargar Transportista (Necesario para la FK en Camion)
-        Transportista t = new Transportista("Juan", "Pérez", "3511234567", true); // ⬅️ CORREGIDO
-         t = transportistaRepository.save(t);
-        System.out.println("Transportista precargado.");
+        System.out.println("Iniciando precarga de datos...");
 
+        Transportista t1 = new Transportista("Juan", "Pérez", "3511234567", true);
+        Transportista t2 = new Transportista("Maria", "Gomez", "3519876543", true);
 
-        // 2. Precargar Tarifas (Ajustado al constructor de 7 parámetros de Tarifa)
-        // Los parámetros son: (id, valorLitro, cargoGestion, costoKm, descripcion, volMin, volMax)
+        List<Transportista> transportistas = transportistaRepository.saveAll(List.of(t1, t2));
+        Transportista transportistaJuan = transportistas.get(0); // Juan
 
-        // Asumo que el valorLitroCombustible es fijo para todas (ej: 950.0)
-        // y el cargoGestionBase es fijo (ej: 5000.0)
+        System.out.println("Transportistas precargados.");
 
-        Tarifa liviano = new Tarifa( 950.0, 5000.0, 150.0, "Camión Liviano (0-25m3)", 0.0, 25.0);
-        Tarifa mediano = new Tarifa( 950.0, 7000.0, 200.0, "Camión Mediano (25-50m3)", 25.1, 50.0);
-        Tarifa pesado = new Tarifa( 950.0, 10000.0, 300.0, "Camión Pesado (50-100m3)", 50.1, 100.0);
+        Tarifa liviano = new Tarifa(950.0, 5000.0, 150.0, "Tarifa Liviana (0-25m3)", 0.0, 25.0);
+        Tarifa mediano = new Tarifa(950.0, 7000.0, 200.0, "Tarifa Mediana (25-50m3)", 25.0, 50.0);
+        Tarifa pesado = new Tarifa(950.0, 10000.0, 300.0, "Tarifa Pesada (>50m3)", 50.0, null);
 
         tarifaRepository.saveAll(List.of(liviano, mediano, pesado));
         System.out.println("Tarifas precargadas.");
 
-        // 3. Precargar Camiones (Ajustado al nuevo constructor asumido)
-        // Parámetros asumidos: (id, patente, capPeso, capVol, consumoPromedio, disponibilidad, TIPO, transportista, tarifa)
 
         if (camionRepository.count() == 0) {
 
-            // Parámetros: (patente, transportista, capPeso, capVol, consumo, costoBaseKm, tipoCamion, disponibilidad)
 
-            Camion camion1 = new Camion("AAA111", t, 5000.0, 25.0, 8.5, 150.0, TipoCamion.LIVIANO, true);
-            Camion camion2 = new Camion("BBB222", t, 12000.0, 45.0, 12.0, 200.0, TipoCamion.MEDIANO, true);
-            Camion camion3 = new Camion("CCC333", t, 30000.0, 80.0, 18.0, 300.0, TipoCamion.PESADO, true);
+            Camion c1 = new Camion("AA123BB", transportistaJuan, 5000.0, 20.0, 12.5, 150.0, TipoCamion.LIVIANO, true);
+            Camion c2 = new Camion("CC456DD", transportistaJuan, 12000.0, 45.0, 18.0, 200.0, TipoCamion.MEDIANO, true);
+            Camion c3 = new Camion("EE789FF", transportistaJuan, 30000.0, 80.0, 25.0, 300.0, TipoCamion.PESADO, true);
 
-            camionRepository.saveAll(List.of(camion1, camion2, camion3));
+            camionRepository.saveAll(List.of(c1, c2, c3));
             System.out.println("Camiones precargados.");
         }
+
+        System.out.println("Carga de datos finalizada con éxito.");
     }
 }

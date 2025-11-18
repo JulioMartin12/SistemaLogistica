@@ -1,7 +1,12 @@
-D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-camiones\src\main\java\com\grupo108\camiones\config\DataLoader.java
-D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-camiones\src\main\java\com\grupo108\camiones\controller\CamionController.java
+D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-camiones\src\main\java\com\grupo108\camiones\service\TarifaService.java
+D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-camiones\src\main\java\com\grupo108\camiones\repository\TarifaRepository.java
+D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-camiones\src\main\java\com\grupo108\camiones\client\IntegracionClient.java
+D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-camiones\src\main\java\com\grupo108\camiones\controller\TarifaController.java
+D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-camiones\src\main\java\com\grupo108\camiones\exception\GlobalExceptionHandler.java
 D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-camiones\src\main\java\com\grupo108\camiones\MicroservicioCamionesApplication.java
 D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-camiones\src\main\java\com\grupo108\camiones\repository\CamionRepository.java
-D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-camiones\src\main\java\com\grupo108\camiones\repository\TarifaRepository.java
-D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-camiones\src\main\java\com\grupo108\camiones\repository\TransportistaRepository.java
+D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-camiones\src\main\java\com\grupo108\camiones\controller\CamionController.java
 D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-camiones\src\main\java\com\grupo108\camiones\service\CamionService.java
+D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-camiones\src\main\java\com\grupo108\camiones\config\DataLoader.java
+D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-camiones\src\main\java\com\grupo108\camiones\repository\TransportistaRepository.java
+D:\Facultad\Backend 3K4\TPI\SistemaLogistica\microservicio-camiones\src\main\java\com\grupo108\camiones\exception\ResourceNotFoundException.java

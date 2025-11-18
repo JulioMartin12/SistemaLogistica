@@ -1,14 +1,22 @@
 server:
-  port: 8084 # Puerto de escucha para este microservicio
+  port: 8080
 
 spring:
   application:
     name: microservicio-integracion
 
-# 🗺️ CONFIGURACIÓN DE LA API DE RUTE OSRM
-# Este servicio consume el contenedor OSRM que corre en el puerto 5000 dentro de Docker.
 osrm:
-  # La URL interna del servicio OSRM dentro de la red Docker
+
   base-url: http://osrm:5000/route/v1/driving/
 
-# Nota: Si estuvieras usando Google Maps, aquí iría la API key y la URL base.
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

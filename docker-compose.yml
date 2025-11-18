@@ -1,7 +1,4 @@
-version: '3.9'
-
 services:
-  # ---------- DB ----------
   db:
     image: postgres:16
     container_name: transporte_db
@@ -11,7 +8,6 @@ services:
     networks:
       - microservice-network
 
-  # ---------- Keycloak ----------
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
@@ -31,7 +27,6 @@ services:
     networks:
       - microservice-network
 
-  # ---------- OSRM ----------
   osrm:
     image: ghcr.io/project-osrm/osrm-backend:latest
     container_name: osrm
@@ -43,7 +38,6 @@ services:
     networks:
       - microservice-network
 
-  # ---------- API GATEWAY ----------
   api-gateway:
     build:
       context: ./api-gateway
@@ -59,16 +53,16 @@ services:
       - microservicio-clientes
       - microservicio-contenedores
       - microservicio-camiones
-      - osrm
+      - microservicio-integracion
     networks:
       - microservice-network
 
-  # ---------- Microservicios ----------
   microservicio-clientes:
     build:
       context: ./microservicio-clientes
       dockerfile: Dockerfile
     env_file: .env
+
     expose:
       - "8080"
     volumes:
@@ -103,7 +97,40 @@ services:
       - ./microservicio-camiones/src/main/resources/application.yml:/app/config/application.yml
     depends_on:
       - db
+    networks:
+      - microservice-network
+  # 8. MICROSERVICIO INTEGRACIÓN
+  microservicio-integracion:
+    build:
+      context: ./microservicio-integracion
+      dockerfile: Dockerfile
+    env_file: .env
+
+    expose:
+      - "8080"
+    volumes:
+      - ./microservicio-integracion/src/main/resources/application.yml:/app/config/application.yml
+    depends_on:
       - osrm
+      - db
+    networks:
+      - microservice-network
+
+  microservicio-logistica:
+    container_name: logistica_service
+    build:
+      context: ./microservicio-logistica
+      dockerfile: Dockerfile
+    env_file: .env
+    expose:
+      - "8080"
+    volumes:
+      - ./microservicio-logistica/src/main/resources/application.yml:/app/config/application.yml
+    depends_on:
+      - db
+      - microservicio-clientes
+      - microservicio-contenedores
+      - microservicio-camiones
     networks:
       - microservice-network
 

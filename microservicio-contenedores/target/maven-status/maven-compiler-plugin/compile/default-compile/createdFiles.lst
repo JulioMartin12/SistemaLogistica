@@ -1,7 +1,0 @@
-com\grupo108\contenedores\MicroservicioContenedoresApplication.class
-com\grupo108\contenedores\service\ContenedorService.class
-com\grupo108\contenedores\repository\TramoRepository.class
-com\grupo108\contenedores\controller\ContenedorController.class
-com\grupo108\contenedores\repository\RutaRepository.class
-com\grupo108\contenedores\repository\ContenedorRepository.class
-com\grupo108\contenedores\repository\SolicitudRepository.class

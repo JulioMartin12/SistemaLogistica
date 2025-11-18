@@ -1,19 +1,29 @@
 server:
-  port: 8080 # Puerto interno uniforme
+  port: 8080
 
 spring:
   application:
     name: microservicio-clientes
 
-  # CONFIGURACIÓN DE POSTGRESQL
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
-  # CONFIGURACIÓN DE JPA
   jpa:
     hibernate:
       ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
     show-sql: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

@@ -14,11 +14,9 @@ public class DistanceService {
         this.webClient = webClientBuilder.build();
     }
 
-    // El Microservicio Camiones llama a este método
     public double getDistanceInMeters(double originLat, double originLon, double destLat, double destLon) {
 
         try {
-            // 💡 Esta es la implementación de consumo real de la API OSRM
             String coordinates = originLon + "," + originLat + ";" + destLon + "," + destLat;
 
             String responseBody = webClient.get()
@@ -27,9 +25,7 @@ public class DistanceService {
                     .bodyToMono(String.class)
                     .block();
 
-            // 💡 Aquí iría el parser del JSON para obtener la distancia
-            // Por ahora, usamos simulación para que el MS Camiones no falle.
-            return 500000.0; // Distancia simulada (500 km)
+            return 500000.0;
 
         } catch (Exception e) {
             System.err.println("Fallo al conectar OSRM. Usando fallback de distancia simulada.");
